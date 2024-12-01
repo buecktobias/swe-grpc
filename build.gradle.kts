@@ -14,48 +14,47 @@ java {
     }
 }
 
-configurations {
-    compileOnly {
-        extendsFrom(configurations.annotationProcessor.get())
-    }
-}
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    // Spring Boot
     implementation("org.springframework.boot:spring-boot-starter-web")
+
+    implementation("net.devh:grpc-server-spring-boot-starter:2.15.0.RELEASE")
+
+    // Protobuf and gRPC dependencies
     implementation("com.google.protobuf:protobuf-java:4.28.2")
-    implementation("io.grpc:grpc-netty-shaded:1.58.0")
-    implementation("io.grpc:grpc-protobuf:1.58.0")
-    implementation("io.grpc:grpc-stub:1.58.0")
+    implementation("io.grpc:grpc-netty-shaded:1.68.1")
+    implementation("io.grpc:grpc-protobuf:1.68.1")
+    implementation("io.grpc:grpc-stub:1.68.1")
 
     // javax.annotation for @Generated
     compileOnly("javax.annotation:javax.annotation-api:1.3.2")
-    compileOnly("org.projectlombok:lombok")
+
+    // Testing dependencies
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
-// Protobuf configuration for gRPC
+
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:3.24.3"
     }
     plugins {
         create("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.58.0"
+            artifact = "io.grpc:protoc-gen-grpc-java:1.68.1"
         }
     }
     generateProtoTasks {
         all().forEach { task ->
             task.plugins {
-                create("grpc") // Matches the plugin created above
+                create("grpc")
             }
         }
     }
 }
-
 
 tasks.withType<Test> {
     useJUnitPlatform()
