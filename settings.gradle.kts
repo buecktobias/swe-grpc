@@ -1,1 +1,3 @@
-rootProject.name = "swe-grpc"
+rootProject.name = "grpc-project"
+
+include("server", "client")

@@ -1,4 +1,4 @@
-package com.example.swegrpc;
+package com.swe.grpc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

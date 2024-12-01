@@ -1,7 +1,7 @@
-package com.example.swegrpc;
+package com.swe.grpc.services;
 
-import com.example.grpc.HelloProto;
-import com.example.grpc.HelloServiceGrpc;
+import com.swe.grpc.HelloProto;
+import com.swe.grpc.HelloServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 

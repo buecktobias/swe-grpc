@@ -1,0 +1,31 @@
+###
+GRPC localhost:9090/HelloService/SayHello
+Content-Type: application/grpc
+
+{
+  "name": "Tobi"
+}
+<> 2024-12-01T131046.OK.json
+<> 2024-12-01T131007.OK.json
+
+###
+GRPC localhost:9090/KundeReadService/findAll
+Content-Type: application/grpc
+
+{}
+
+###
+GRPC localhost:9090/KundeReadService/findById
+Content-Type: application/grpc
+
+{
+   "id": 1
+}
+
+###
+GRPC localhost:9090/KundeReadService/findById
+Content-Type: application/grpc
+
+{
+   "id": 999999
+}

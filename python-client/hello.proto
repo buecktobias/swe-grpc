@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_package = "com.example.grpc";
+option java_package = "com.swe.grpc";
 option java_outer_classname = "HelloProto";
 
 service HelloService {

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_package = "com.swe.grpc";
+option java_outer_classname = "KundeProto";
+import "google/protobuf/empty.proto";
+
+service KundeReadService{
+  rpc findAll(google.protobuf.Empty) returns (stream Kunde);
+  rpc findById(KundeByIdRequest) returns (Kunde);
+}
+
+
+message KundeByIdRequest{
+  uint32 id = 1;
+}
+
+message Kunde{
+  uint32 id = 1;
+  string vorname = 2;
+  string nachname = 3;
+  string email = 4;
+  string geburtsdatum = 5; // ISO 8601 yyyy-MM-dd
+}
