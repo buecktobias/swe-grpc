@@ -1,3 +1,5 @@
+import org.gradle.internal.impldep.org.bouncycastle.oer.OERDefinition
+
 plugins {
     java
     id("org.springframework.boot") version "3.4.0"
@@ -37,6 +39,7 @@ dependencies {
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:3.24.3"
+
     }
     plugins {
         create("grpc") {
@@ -45,9 +48,15 @@ protobuf {
     }
     generateProtoTasks {
         all().forEach { task ->
+            task.builtins {
+                named("java") {
+                    option("--experimental_editions")
+                }
+            }
             task.plugins {
                 create("grpc")
             }
         }
     }
+
 }
