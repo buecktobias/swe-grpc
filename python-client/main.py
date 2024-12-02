@@ -1,21 +1,10 @@
 import grpc
+import pytest
+from google.protobuf import empty_pb2
+
 import kunde_pb2
 import kunde_pb2_grpc
-def find_by_id(client, customer_id):
-    try:
-        request = Kunde
-        response = client.FindById(request)
-        print(f"Kunde Found: ID={response.id}, Name={response.name}")
-    except grpc.RpcError as e:
-        print(f"Error: {e.code().name}, {e.details()}")
 
-def find_all(client):
-    try:
-        print("Kunden List:")
-        for kunde in client.FindAll(kunde_pb2.google_dot_protobuf_dot_empty__pb2.Empty()):
-            print(f"- ID={kunde.id}, Name={kunde.name}")
-    except grpc.RpcError as e:
-        print(f"Error: {e.code().name}, {e.details()}")
 
 def main():
     # 1. Create a channel to connect to the gRPC server
@@ -23,13 +12,23 @@ def main():
         # 2. Create a stub (client) to interact with the service
         client = kunde_pb2_grpc.KundeReadServiceStub(channel)
 
-        # 3. Call methods on the stub
-        print("Calling find_by_id...")
-        find_by_id(client, 1)  # Valid ID
-        find_by_id(client, 999999)  # Invalid ID
+        # 3. Call the service method
+        kunde = client.findById(kunde_pb2.KundeByIdRequest(id=1))
+        assert kunde.id == 1
+        assert kunde.vorname == "Max"
 
-        print("\nCalling find_all...")
-        find_all(client)
+        # 3. Call the service method
+        with pytest.raises(grpc.RpcError) as exception_info:
+            client.findById(kunde_pb2.KundeByIdRequest(id=99999))
+        error: grpc.RpcError = exception_info.value
+        # noinspection PyUnresolvedReferences
+        assert error.code() == grpc.StatusCode.NOT_FOUND
+
+        # noinspection PyUnresolvedReferences
+        responseStream = client.findAll(empty_pb2.Empty())
+        clients = list(responseStream)
+        assert len(clients) == 2
+
 
 if __name__ == "__main__":
     main()
