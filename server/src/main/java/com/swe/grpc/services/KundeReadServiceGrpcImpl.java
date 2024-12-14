@@ -30,7 +30,8 @@ public class KundeReadServiceGrpcImpl extends KundeReadServiceGrpc.KundeReadServ
     }
 
     @Override
-    public void findById(KundeProto.KundeByIdRequest request, StreamObserver<KundeProto.Kunde> responseObserver) {
+    public void findById(com.swe.grpc.KundeProto.KundeByIdRequest request,
+                         io.grpc.stub.StreamObserver<com.swe.grpc.KundeProto.Kunde> responseObserver) {
         Optional<Kunde> kunde = kundeReadService.findById(request.getId());
 
         if (kunde.isEmpty()) {
@@ -41,8 +42,8 @@ public class KundeReadServiceGrpcImpl extends KundeReadServiceGrpc.KundeReadServ
             );
             return;
         }
-
-        responseObserver.onNext(kundeMapperService.toProto(kunde.get()));
+        var protoKunde = kundeMapperService.toProto(kunde.get());
+        responseObserver.onNext(protoKunde);
         responseObserver.onCompleted();
     }
 }

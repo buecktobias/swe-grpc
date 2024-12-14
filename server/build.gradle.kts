@@ -48,11 +48,6 @@ protobuf {
     }
     generateProtoTasks {
         all().forEach { task ->
-            task.builtins {
-                named("java") {
-                    option("--experimental_editions")
-                }
-            }
             task.plugins {
                 create("grpc")
             }
