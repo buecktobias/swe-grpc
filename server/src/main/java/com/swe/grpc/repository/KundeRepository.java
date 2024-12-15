@@ -11,16 +11,40 @@ import java.util.Optional;
 public class KundeRepository {
 
     private final List<Kunde> kunden = List.of(
-            new Kunde(1,
-                    "Max",
+            new Kunde(UUID.of(1),
                     "Mustermann",
-                    "max@email.com",
-                    LocalDate.of(1990, 1, 1)),
-            new Kunde(2,
+                    "max.mustermann@web.de",
+                    3,
+                    false,
+                    LocalDate.of(1990, 1, 1),
+                    URL.of("https://www.mustermann.de"),
+                    GeschlechtType.of("M"),
+                    FamilienstandType.of("L"),
+                    Adresse.of("76131", "Karlsruhe"),
+                    Umsatz.of(BigDecimal.valueOf(200), Currency.of("EURO").toList()),
+                    InteresseType.of("S").toList()
+                    ),
+            /* new Kunde(2,
                     "Erika",
                     "Musterfrau",
                     "erika@email.com",
                     LocalDate.of(1991, 2, 2))
+    ); */
+            new Kunde(UUID.of(2),
+                "Musterfrau",
+                "erika.musterfrau@web.de",
+                2,
+                false,
+                LocalDate.of(1991, 2, 2),
+                URL.of("https://www.musterfrau.de"),
+                GeschlechtType.of("W"),
+                FamilienstandType.of("VH"),
+                Adresse.of("76131", "Karlsruhe"),
+                Umsatz.of(BigDecimal.valueOf(300), Currency.of("EURO").toList()),
+                InteresseType.of("R").toList()
+            )
+
+            
     );
 
     public List<Kunde> findAll() {
