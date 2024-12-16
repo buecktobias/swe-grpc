@@ -1,0 +1,98 @@
+@startuml KundeWriteController
+
+skinparam classAttributeIconSize 0
+
+package org.springframework {
+package stereotype {
+        interface "@Controller" as Controller
+    }
+
+    package web.bind {
+        class MethodArgumentNotValidException
+
+        package annotation {
+            interface "@RequestMapping" as RequestMapping
+            interface "@PathVariable" as PathVariable
+            interface "@RequestBody" as RequestBody
+            interface "@ExceptionHandler" as ExceptionHandler
+        }
+
+        RequestMapping .down[hidden].> MethodArgumentNotValidException
+        PathVariable .right[hidden].> RequestMapping
+        Controller .right[hidden].> PathVariable
+    }
+
+    package http {
+        class ResponseEntity<T>
+        class ProblemDetail
+
+        package converter {
+            class HttpMessageNotReadableException
+        }
+
+        ResponseEntity .[hidden].> ProblemDetail
+        ProblemDetail .[hidden].> HttpMessageNotReadableException
+    }
+}
+
+package jakarta.servlet.http {
+    interface HttpServletRequest
+
+    HttpMessageNotReadableException .down[hidden].> HttpServletRequest
+}
+
+package java.util {
+    interface Collection<T>
+    class UUID
+
+    UUID .up[hidden].> Collection
+    Collection .up[hidden].> HttpServletRequest
+}
+
+package com.acme.kunde {
+    package service {
+        class KundeWriteService << control >> << @Service >>
+
+        class EmailExistsException
+    }
+
+    package rest #DDDDDD {
+        class KundeDTO <<entity>>
+
+        class KundeWriteController << boundary >> << @Controller >> << @RequestMapping >> {
+            + @PostMapping post(@RequestBody KundeDTO: KundeDTO, request: HttpServletRequest): ResponseEntity<Void>
+            + @PutMapping put(@PathVariable id: UUID, @RequestBody KundeDTO: KundeDTO)
+            + @DeleteMapping deleteById(@PathVariable id: UUID)
+            + @ExceptionHandler onConstraintViolations(ex: MethodArgumentNotValidException, req: HttpServletRequest): ProblemDetail
+            + @ExceptionHandler onEmailExists(ex: EmailExistsException, req: HttpServletRequest): ProblemDetail
+            + @ExceptionHandler onMessageNotReadable(ex: HttpMessageNotReadableException, req: HttpServletRequest): ProblemDetail
+        }
+
+        KundeWriteController o-down-> "1" KundeWriteService : service
+        KundeWriteController ..> KundeDTO
+        KundeWriteController ..> EmailExistsException
+
+        KundeWriteController .up.> ResponseEntity
+        KundeWriteController .up.> ProblemDetail
+        KundeWriteController .up.> HttpMessageNotReadableException
+        KundeWriteController .left.> HttpServletRequest
+
+        KundeWriteController .up.> Controller
+        KundeWriteController .up.> RequestMapping
+        KundeWriteController .up.> PathVariable
+        KundeWriteController .up.> RequestBody
+        KundeWriteController .up.> ExceptionHandler
+        KundeWriteController .up.> MethodArgumentNotValidException
+
+        KundeWriteController .right.> UUID
+        KundeWriteController .right.> Collection
+
+        KundeDTO .[hidden].> KundeWriteService
+    }
+}
+
+hide empty members
+
+footer (c) Juergen Zimmermann
+
+@enduml

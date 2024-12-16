@@ -1,0 +1,47 @@
+@startuml KundeReadService
+
+skinparam classAttributeIconSize 0
+
+package stereotype {
+    interface Service
+}
+
+package util {
+    interface List<T>
+    interface Map<K,V>
+    class UUID
+
+    UUID .left[hidden].> Service
+}
+
+package kunde {
+    package entity {
+        class Kunde << entity >>
+
+        Kunde .up[hidden].> List
+    }
+
+    package repository {
+        class KundeRepository << control >> << @Repository >>
+    }
+
+    package service #DDDDDD {
+        class KundeReadService << control >> << @Service >> {
+            + findById(id: UUID): Kunde
+            + find(queryParams: Map<String, String>): List<Kunde>
+        }
+
+        KundeReadService o--> KundeRepository : repo
+        KundeReadService .right.> Kunde
+        KundeReadService ..> Service
+        KundeReadService .up.> UUID
+        KundeReadService .up> List
+        KundeReadService .up.> Map
+    }
+}
+
+hide empty members
+
+footer (c) Jürgen Zimmermann
+
+@enduml

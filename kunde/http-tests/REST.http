@@ -1,0 +1,358 @@
+# REST
+
+###
+# group: Suche mit ID
+# @name Vorhandene ID 0...1 hal+json
+GET {{api_url}}/{{id}}
+Accept: application/hal+json
+
+
+
+###
+# group: Suche mit ID
+# @name Vorhandene ID 0...1 json
+GET {{api_url}}/{{id_1}}
+Accept: application/json
+
+
+
+###
+# group: Suche mit ID
+# @name Nicht-vorhandene ID 99999999-9999-9999-9999-999999999999
+GET {{api_url}}/{{id_2}}
+
+
+
+###
+# group: Suche mit Suchkriterien
+# @name Alle
+GET {{api_url}}
+Accept: application/hal+json
+
+
+
+###
+# group: Suche mit Suchkriterien
+# @name Teilstring "i" des Nachnamens
+GET {{api_url}}?
+    nachname=i
+Accept: application/hal+json
+
+
+
+###
+# group: Suche mit Suchkriterien
+# @name Vorhandener Nachname
+GET {{api_url}}?
+    nachname=Alpha
+Accept: application/hal+json
+
+
+
+###
+# group: Suche mit Suchkriterien
+# @name Nicht-vorhandener Teilstring des Nachnamens
+GET {{api_url}}?
+    nachname=Zeta
+Accept: application/hal+json
+
+
+
+###
+# group: Suche mit Suchkriterien
+# @name Vorhandene Emailadresse
+GET {{api_url}}?
+    email=admin%40acme.com
+Accept: application/hal+json
+
+
+
+###
+# group: Suche mit Suchkriterien
+# @name Nicht-vorhandene Emailadresse
+GET {{api_url}}?
+    email=Nicht%40Vorhanden
+Accept: application/hal+json
+
+
+
+###
+# group: Suche mit Suchkriterien
+# @name Suche mit einem Interesse
+GET {{api_url}}?
+    interesse=L
+Accept: application/hal+json
+
+###
+# group: Suche mit Suchkriterien
+# @name Suche mit mehreren Interessen
+GET {{api_url}}?
+    interesse=S
+Accept: application/hal+json
+
+
+###
+# group: Suche mit Suchkriterien
+# @name Nicht-vorhandene Property
+GET {{api_url}}?
+    php=true
+
+
+###
+# group: Suche mit Suchkriterien
+# @name Nachnamen mit Präfix
+GET {{api_url}}/nachname/{{praefix}}
+Accept: application/json
+
+
+
+###
+# group: Neuanlegen
+# @name Neuer Kunde
+POST {{api_url}}
+Content-Type: application/json
+
+{
+  "nachname": "Testpost",
+  "email": "Testpost@test.de",
+  "kategorie": 1,
+  "hasNewsletter": true,
+  "geburtsdatum": "2024-01-31",
+  "homepage": "https://www.test.de",
+  "geschlecht": "W",
+  "familienstand": "L",
+  "adresse": {
+    "plz": "12345",
+    "ort": "Testortpost"
+  },
+  "umsaetze": [
+    {
+      "betrag": 1,
+      "waehrung": "EUR"
+    }
+  ],
+  "interessen": [
+    "R",
+    "L"
+  ]
+}
+
+
+###
+# group: Neuanlegen
+# @name Neuer Kunde mit bereits existierender Email
+POST {{api_url}}
+Content-Type: application/json
+
+{
+  "nachname": "Test",
+  "email": "admin@acme.com",
+  "kategorie": 1,
+  "hasNewsletter": true,
+  "geburtsdatum": "2024-01-31",
+  "homepage": "https://www.test.de",
+  "geschlecht": "W",
+  "familienstand": "L",
+  "adresse": {
+    "plz": "12345",
+    "ort": "Testort"
+  },
+  "umsaetze": [
+    {
+      "betrag": 0,
+      "waehrung": "EUR"
+    }
+  ],
+  "interessen": [
+    "R",
+    "L"
+  ]
+}
+
+
+###
+# group: Neuanlegen
+# @name Neuer Kunde mit ungültigen Daten
+POST {{api_url}}
+Content-Type: application/json
+
+{
+  "nachname": "?!$",
+  "email": "email",
+  "kategorie": 11,
+  "hasNewsletter": true,
+  "geburtsdatum": "3000-01-31",
+  "homepage": "https://www.test.de",
+  "geschlecht": "W",
+  "familienstand": "L",
+  "adresse": {
+    "plz": "1234",
+    "ort": "Testort"
+  },
+  "umsaetze": [
+    {
+      "betrag": 0,
+      "waehrung": "EUR"
+    }
+  ],
+  "interessen": [
+    "R",
+    "L",
+    "L"
+  ]
+}
+
+###
+# group: Neuanlegen
+# @name Neuer Kunde ohne Adresse
+POST {{api_url}}
+Content-Type: application/json
+
+{
+  "nachname": "?!$",
+  "email": "email",
+  "kategorie": 11,
+  "hasNewsletter": true,
+  "geburtsdatum": "3000-01-31",
+  "homepage": "https://www.test.de",
+  "geschlecht": "W",
+  "familienstand": "L",
+  "umsaetze": [
+    {
+      "betrag": 0,
+      "waehrung": "EUR"
+    }
+  ],
+  "interessen": [
+    "R",
+    "L",
+    "L"
+  ]
+}
+
+###
+# group: Neuanlegen
+# @name Neuer Kunde mit fehlerhaften Datentypen
+POST {{api_url}}
+Content-Type: application/json
+
+{
+  "nachname": "Test",
+  "email": "Theo@Test.de",
+  "kategorie": 1,
+  "hasNewsletter": true,
+  "geburtsdatum": "123",
+  "homepage": "123!",
+  "geschlecht": "W",
+  "familienstand": "L",
+  "adresse": {
+    "plz": 12345,
+    "ort": "Testort"
+  },
+  "umsaetze": [
+    {
+      "betrag": 0,
+      "waehrung": "Xy"
+    }
+  ],
+  "interessen": [
+    "R",
+    "L"
+  ]
+}
+
+###
+# group: Ändern durch PUT
+# @name Kunde 30 ändern
+PUT {{api_url}}/{{id_3}}
+If-Match: "0"
+Content-Type: application/json
+
+{
+  "nachname": "Testput",
+  "email": "Theo@Test.de.put",
+  "kategorie": 1,
+  "hasNewsletter": true,
+  "geburtsdatum": "2024-01-31",
+  "homepage": "https://www.test.de",
+  "geschlecht": "W",
+  "familienstand": "L",
+  "username": "alpha3"
+}
+
+
+###
+# group: Ändern durch PUT
+# @name Nicht-vorhandener Kunde ändern
+PUT {{api_url}}/{{id_4}}
+If-Match: "0"
+Content-Type: application/json
+
+{
+  "nachname": "Testput",
+  "email": "Theo@Test.de.put",
+  "kategorie": 1,
+  "hasNewsletter": true,
+  "geburtsdatum": "2024-01-31",
+  "homepage": "https://www.test.de",
+  "geschlecht": "W",
+  "familienstand": "L",
+  "username": "alpha3"
+}
+
+###
+# group: Ändern durch PUT
+# @name Kunde 30 mit ungültigen Daten ändern
+PUT {{api_url}}/{{id_5}}
+If-Match: "0"
+Content-Type: application/json
+
+{
+  "nachname": "?!%",
+  "email": "email",
+  "kategorie": 11,
+  "hasNewsletter": true,
+  "geburtsdatum": "3000-01-31",
+  "umsatz": {
+    "betrag": 0,
+    "waehrung": "EUR"
+  },
+  "homepage": "https://www.test.de",
+  "geschlecht": "W",
+  "familienstand": "L",
+  "username": "invalid"
+}
+
+
+###
+# group: Ändern durch PUT
+# @name Kunde 30 ändern und Email existiert
+PUT {{api_url}}/{{id_6}}
+If-Match: "1"
+Content-Type: application/json
+
+{
+  "nachname": "Testput",
+  "email": "admin@acme.com",
+  "kategorie": 1,
+  "hasNewsletter": true,
+  "geburtsdatum": "2024-01-31",
+  "homepage": "https://www.test.de",
+  "geschlecht": "W",
+  "familienstand": "L",
+  "username": "alpha3"
+}
+
+
+###
+# group: Löschen
+# @name Kunde 50 löschen
+DELETE {{api_url}}/{{id_7}}
+If-Match: "0"
+
+
+###
+# group: Löschen
+# @name Nicht-vorhandener Kunde löschen
+DELETE {{api_url}}/{{id_8}}
+If-Match: "0"

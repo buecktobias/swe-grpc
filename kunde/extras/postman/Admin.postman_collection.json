@@ -1,0 +1,355 @@
+{
+	"info": {
+		"name": "Admin",
+		"description": "Administrative Aufgaben, z.B. Abfragen zu Liveness und Readiness",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "Liveness",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Statuscode 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test('Status UP', () => {\r",
+									"    const body = pm.response.json();\r",
+									"    pm.expect(body.status).to.be.equal('UP');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{health_url}}/liveness",
+							"host": [
+								"{{health_url}}"
+							],
+							"path": [
+								"liveness"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Readiness",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Statuscode 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test('Status UP', () => {\r",
+									"    const body = pm.response.json();\r",
+									"    pm.expect(body.status).to.be.equal('UP');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{health_url}}/readiness",
+							"host": [
+								"{{health_url}}"
+							],
+							"path": [
+								"readiness"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Abfragen zu Liveness und Readiness für z.B. Kubernetes."
+		},
+		{
+			"name": "Actuator",
+			"item": [
+				{
+					"name": "actuator",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Statuscode 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{actuator_url}}",
+							"host": [
+								"{{actuator_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Statuscode 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{actuator_url}}/info",
+							"host": [
+								"{{actuator_url}}"
+							],
+							"path": [
+								"info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "health",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Statuscode 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test('ID im Self-Link', () => {\r",
+									"    const body = pm.response.json();\r",
+									"    pm.expect(body.status).to.be.equal('UP');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{actuator_url}}/health",
+							"host": [
+								"{{actuator_url}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "mappings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Statuscode 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{actuator_url}}/mappings",
+							"host": [
+								"{{actuator_url}}"
+							],
+							"path": [
+								"mappings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "beans",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Statuscode 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{actuator_url}}/beans",
+							"host": [
+								"{{actuator_url}}"
+							],
+							"path": [
+								"beans"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "env",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Statuscode 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{actuator_url}}/env",
+							"host": [
+								"{{actuator_url}}"
+							],
+							"path": [
+								"env"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Shutdown",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Statuscode 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test('Message im Body', () => {\r",
+							"    const body = pm.response.json();\r",
+							"    pm.expect(body.message).to.match(/^Shutting down/u);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{actuator_url}}/shutdown",
+					"host": [
+						"{{actuator_url}}"
+					],
+					"path": [
+						"shutdown"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "actuator_url",
+			"value": "{{base_url}}/actuator",
+			"type": "string"
+		},
+		{
+			"key": "health_url",
+			"value": "{{actuator_url}}/health",
+			"type": "string"
+		}
+	]
+}

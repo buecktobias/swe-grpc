@@ -1,0 +1,117 @@
+# Copyright (C) 2021 - present Juergen Zimmermann, Hochschule Karlsruhe
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+# https://docs.gradle.org/8.4/userguide/platforms.html#sub:central-declaration-of-dependencies
+# https://toml.io   TOML = Tom's Obvious Minimal Language   (Tom Preston-Werner)
+
+[versions]
+javaVersion = "23.0.1"
+
+spring-boot = "3.4.0-M3"
+spring-bootPlugin = "3.4.0-M3"
+
+jansi = "2.4.1"
+mapstruct = "1.6.2"
+springdoc-openapi = "2.6.0"
+
+# -----------------------------------------------------------------------------------------
+# B O M s   u n d   s p e z i f i s c h e   V e r s i o n e n   u e b e r s c h r e i b e n
+# -----------------------------------------------------------------------------------------
+allure = "2.29.0"
+hibernate-processor = "7.0.0.Beta1"
+hibernate-validator = "9.0.0.Beta3"
+jakarta-validation = "3.1.0"
+junit-jupiter = "5.11.2"
+logback = "1.5.11"
+mockito = "5.14.2"
+mockito-inline = "5.2.0"
+netty = "4.1.114.Final"
+reactor-bom = "2024.0.0"
+slf4j = "2.1.0-alpha1"
+spring-framework = "6.2.0"
+spring-hateoas = "2.4.0"
+tomcat = "10.1.31"
+
+# ----------------------------------------------------------------------------------------
+# T e s t e n
+# ----------------------------------------------------------------------------------------
+junit-platform-suite = "1.11.2"
+
+# ----------------------------------------------------------------------------------------
+# C o d e a n a l y s e ,   R e p o r t s ,   D o k u m e n t a t i o n
+# ----------------------------------------------------------------------------------------
+checkstyle = "10.18.2"
+modernizer = "2.9.0"
+spotbugs = "4.8.6"
+
+# ----------------------------------------------------------------------------------------
+# P l u g i n s
+# ----------------------------------------------------------------------------------------
+spotbugsPlugin = "6.0.25"
+test-logger = "4.0.0"
+# region grpc
+protobuf-java = "4.28.3"
+protobuf-plugin = "0.9.4"
+grpc = "1.68.1"
+protoc = "3.24.3"
+# endregion
+
+[libraries]
+allure-bom = { module = "io.qameta.allure:allure-bom", version.ref = "allure" }
+hibernate-processor = { module = "org.hibernate.orm:hibernate-processor", version.ref = "hibernate-processor" }
+hibernate-validator = { module = "org.hibernate.validator:hibernate-validator", version.ref = "hibernate-validator" }
+jakarta-validation = { module = "jakarta.validation:jakarta.validation-api", version.ref = "jakarta-validation" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit-jupiter" }
+logback-parent = { module = "ch.qos.logback:logback-parent", version.ref = "logback" }
+mockito-bom = { module = "org.mockito:mockito-bom", version.ref = "mockito" }
+netty-bom = { module = "io.netty:netty-bom", version.ref = "netty" }
+reactor-bom = { module = "io.projectreactor:reactor-bom", version.ref = "reactor-bom" }
+slf4j-bom = { module = "org.slf4j:slf4j-bom", version.ref = "slf4j" }
+spring-boot-parent = { module = "org.springframework.boot:spring-boot-starter-parent", version.ref = "spring-boot" }
+spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools", version.ref = "spring-boot" }
+spring-framework-bom = { module = "org.springframework:spring-framework-bom", version.ref = "spring-framework" }
+spring-hateoas = { module = "org.springframework.hateoas:spring-hateoas", version.ref = "spring-hateoas" }
+tomcat-embed-core = { module = "org.apache.tomcat.embed:tomcat-embed-core", version.ref = "tomcat" }
+tomcat-embed-el = { module = "org.apache.tomcat.embed:tomcat-embed-el", version.ref = "tomcat" }
+tomcat-embed-websocket = { module = "org.apache.tomcat.embed:tomcat-embed-websocket", version.ref = "tomcat" }
+
+jansi = { module = "org.fusesource.jansi:jansi", version.ref = "jansi" }
+junit-platform-suite-api = { module = "org.junit.platform:junit-platform-suite-api", version.ref = "junit-platform-suite" }
+junit-platform-suite-engine = { module = "org.junit.platform:junit-platform-suite-engine", version.ref = "junit-platform-suite" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockito-inline" }
+modernizer = { module = "org.gaul:modernizer-maven-annotations", version.ref = "modernizer" }
+spotbugs-annotations = { module = "com.github.spotbugs:spotbugs-annotations", version.ref = "spotbugs" }
+springdoc-openapi = { module = "org.springdoc:springdoc-openapi", version.ref = "springdoc-openapi" }
+# region grpc
+protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf-java" }
+protoc = { module = "com.google.protobuf:protoc", version.ref = "protoc" }
+grpc-netty-shaded = { module = "io.grpc:grpc-netty-shaded", version.ref = "grpc" }
+grpc-protobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpc" }
+grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc" }
+grpc-protoc-plugin = { module = "io.grpc:protoc-gen-grpc-java", version.ref = "grpc" }
+# endregion
+
+[bundles]
+tomcat = ["tomcat-embed-core", "tomcat-embed-el", "tomcat-embed-websocket"]
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-bootPlugin" }
+spotbugs = { id = "com.github.spotbugs", version.ref = "spotbugsPlugin" }
+test-logger = { id = "com.adarshr.test-logger", version.ref = "test-logger" }
+# region grpc
+protobuf = { id = "com.google.protobuf", version.ref = "protobuf-plugin" }
+# endregion

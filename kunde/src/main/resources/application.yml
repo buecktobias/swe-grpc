@@ -1,0 +1,103 @@
+---
+server:
+  compression:
+    enabled: true
+    mime-types: application/hal+json
+    min-response-size: 2KB
+  error.whitelabel.enabled: false
+  http2.enabled: true
+  ssl.enabled: false
+  shutdown: graceful
+
+spring:
+  application.name: kunde
+  aop.proxy-target-class: false
+
+  jackson.default-property-inclusion: non_null
+  lifecycle.timeout-per-shutdown-phase: 3s
+
+  main.lazy-initialization: true
+  mvc.problemdetails.enabled: true
+
+  threads.virtual.enabled: true
+
+# ==============================================================================
+# A c t u a t o r
+# ==============================================================================
+management:
+  endpoints.web.exposure.include: "*"
+logging:
+  file:
+    name: /tmp/application.log
+  logback.rollingpolicy:
+    file-name-pattern: ${LOGFILE}.%d{yyyy-MM-dd}.%i.gz
+    max-file-size: 50MB
+    max-history: 7
+  pattern:
+    console: "%clr(%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}){faint} %clr(%5level) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15thread]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %msg%n%wEx"
+    file: "%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %5level ${PID:- } --- [%thread] %-40.40logger{39} : %m%n%wEx"
+  threshold:
+    console: info
+    file: info
+  level:
+    org.springframework.boot.devtools.autoconfigure.ConditionEvaluationDeltaLoggingListener: warn
+    org.springframework.security.core.userdetails.User: error
+    io.micrometer.observation.contextpropagation.ObservationThreadLocalAccessor: error
+
+---
+# ==============================================================================
+# P r o f i l e   " d e v "
+# ==============================================================================
+spring:
+  config.activate.on-profile: dev
+
+  devtools:
+    restart:
+
+      trigger-file: .reloadtrigger
+
+  jackson.serialization.indent-output: true
+
+
+  mvc.log-request-details: true
+  output.ansi.enabled: ALWAYS
+
+
+logging:
+  file.name: /tmp/application.log
+  logback.rollingpolicy:
+    file-name-pattern: ${logging.file.name}.%d{yyyy-MM-dd}.%i.gz
+    max-file-size: 10MB
+    max-history: 3
+  pattern:
+    console: "%clr(%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}){faint} %clr(%5level) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15thread]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %msg%n%wEx"
+    file: "%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %5level ${PID:- } --- [%thread] %-40.40logger{39} : %m%n%wEx"
+  threshold:
+    console: trace
+    file: trace
+  level:
+    com.acme: trace
+
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: debug
+    org.hibernate.SQL_SLOW: warn
+    org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor: debug
+
+    io.qameta.allure.AllureLifecycle: fatal
+
+---
+spring:
+  config.activate.on-profile: http
+
+server:
+  http2.enabled: false
+  ssl.enabled: false
+
+---
+spring:
+  config.activate.on-profile: native
+  datasource:
+    password: ""
+    url: "jdbc:h2:mem:testdb"
+    username: SA
+logging.file.name: /temp/application.log

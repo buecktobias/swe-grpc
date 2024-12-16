@@ -1,0 +1,67 @@
+@startuml KundeGetController
+
+skinparam classAttributeIconSize 0
+
+package springframework {
+    package annotation {
+        interface "@RestController" as RestController
+        interface "@ExceptionHandler" as ExceptionHandler
+        interface "@ResponseStatus" as ResponseStatus
+    }
+
+    package http {
+        class ResponseEntity<T>
+    }
+    package hateoas {
+        class CollectionModel<E>
+    }
+    package util {
+        class MultiValueMap<K,V>
+    }
+
+
+package java.util {
+    class UUID
+    UUID .up[hidden].> HttpServletRequest
+}
+
+package kunde {
+    package service {
+        class KundeReadService << control >> << @Service >>
+        class NotFoundException
+    }
+
+    package rest #DDDDDD {
+        class KundeModel <<entity>>
+
+        class KundeGetController {
+            + getById(id: UUID, request): KundeModel
+            + get(queryParams: MultiValueMap<String, String>, request): Collection<KundeModel>
+        }
+
+        class CommonExceptionHandler << @ControllerAdvice >> {
+            + onNotFound(ex: NotFoundException)
+        }
+
+        KundeGetController o--> "1" KundeReadService : service
+        KundeGetController ..> KundeModel
+
+        KundeGetController .up.> RestController
+        KundeGetController .up.> RequestMapping
+
+        CommonExceptionHandler .up.> ExceptionHandler
+        CommonExceptionHandler .up.> ResponseStatus
+        CommonExceptionHandler ..> NotFoundException
+        CommonExceptionHandler .up[hidden].> KundeModel
+
+        KundeGetController .right.> UUID
+
+        KundeModel ..> KundeReadService
+    }
+}
+
+hide empty members
+
+footer (c) Juergen Zimmermann
+
+@enduml

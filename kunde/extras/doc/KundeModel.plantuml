@@ -1,0 +1,69 @@
+@startuml Kunde
+
+skinparam classAttributeIconSize 0
+' skinparam monochrome true
+
+package java {
+    package util {
+        interface List<T>
+        class URL
+    }
+
+    package time {
+        class LocalDate
+
+        LocalDate .right[hidden].> List
+    }
+}
+
+package org.springframework.hateoas {
+    class RepresentationModel<T>
+
+    URL .right[hidden].> RepresentationModel
+}
+
+package kunde {
+    package entity {
+        class Kunde
+        class Umsatz
+        class Adresse
+        enum GeschlechtType
+        enum FamilienstandType
+        enum InteresseType
+    }
+
+    package rest #DDDDDD {
+        class KundeModel << entity >> {
+            nachname : String
+            email : String
+            kategorie: int
+            hasNewsletter: boolean
+            geburtsdatum: LocalDate
+            homepage: URL
+            geschlecht: GeschlechtType
+            familienstand: FamilienstandType
+            interessen: List<InteresseType>
+
+            KundeModel(kunde: Kunde)
+        }
+
+        KundeModel *--> "*" Umsatz : umsatz
+        KundeModel *--> "1" Adresse : adresse
+        KundeModel ..> GeschlechtType
+        KundeModel ..> FamilienstandType
+        KundeModel ..> InteresseType
+        KundeModel -up-|> RepresentationModel
+
+        KundeModel ..> Kunde
+
+        KundeModel .up.> URL
+        KundeModel .up.> LocalDate
+        KundeModel .up.> List
+    }
+}
+
+hide empty members
+
+footer (c) Jürgen Zimmermann
+
+@enduml

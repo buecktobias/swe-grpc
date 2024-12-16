@@ -1,0 +1,84 @@
+@startuml Kunde
+
+skinparam classAttributeIconSize 0
+
+package java {
+    package util {
+        class UUID
+        interface List<T>
+        class URL
+        class Currency
+    }
+
+    package math {
+        class BigDecimal
+    }
+
+    package time {
+        class LocalDate
+    }
+}
+
+package entity #DDDDDD {
+    class Umsatz {
+        betrag: BigDecimal
+        waehrung: Currency
+    }
+
+    class Adresse {
+        plz: String
+        ort: String
+    }
+
+    enum GeschlechtType {
+        MAENNLICH
+        WEIBLICH
+        DIVERS
+    }
+
+    enum FamilienstandType {
+        LEDIG
+        VERHEIRATET
+        GESCHIEDEN
+        VERWITWET
+    }
+
+    enum InteresseType {
+        SPORT
+        LESEN
+        REISEN
+    }
+
+    class Kunde << entity >> {
+        id : UUID
+        nachname : String
+        email : String
+        kategorie: int
+        hasNewsletter : boolean
+        geburtsdatum: LocalDate
+        homepage: URL
+        geschlecht: GeschlechtType
+        familienstand: FamilienstandType
+        interessen: List<InteresseType>
+    }
+
+    Kunde *--> "0..*" Umsatz : umsaetze
+    Kunde *--> "1" Adresse : adresse
+    Kunde .up.> GeschlechtType
+    Kunde .up.> FamilienstandType
+    Kunde .up.> InteresseType
+
+    Kunde ..> UUID
+    Kunde ..> LocalDate
+    Kunde ..> List
+    Kunde ..> URL
+
+    Umsatz ..> Currency
+    Umsatz ..> BigDecimal
+}
+
+hide empty members
+
+footer (c) Jürgen Zimmermann
+
+@enduml

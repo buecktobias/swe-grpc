@@ -1,0 +1,54 @@
+' Copyright (C) 2019 - present Juergen Zimmermann, Hochschule Karlsruhe
+'
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with this program.  If not, see <https://www.gnu.org/licenses/>.
+@startuml KundeWriteService
+
+skinparam classAttributeIconSize 0
+
+package org.springframework.stereotype {
+    interface Service
+}
+
+package java.util {
+    class UUID
+}
+
+package com.acme.kunde {
+    package entity {
+        class Kunde << entity >>
+    }
+
+    package repository {
+        class KundeRepository << control >> << @Repository >>
+    }
+
+    package service #DDDDDD {
+        class KundeWriteService << control >> << @Service >> {
+            + create(kunde: Kunde): Kunde
+            + update(kunde: Kunde, id: UUID)
+            + deleteById(id: UUID)
+        }
+
+        KundeWriteService o--> "1" KundeRepository : repo
+        KundeWriteService .right.> Kunde
+        KundeWriteService .up.> Service
+        KundeWriteService .up.> UUID
+    }
+}
+
+hide empty members
+
+footer (c) Jürgen Zimmermann
+
+@enduml
