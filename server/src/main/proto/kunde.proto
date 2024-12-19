@@ -70,3 +70,28 @@ service KundeReadService {
     rpc findAll(google.protobuf.Empty) returns (stream Kunde);
     rpc findById(KundeByIdRequest) returns (Kunde);
 }
+
+service KundeWriteService {
+    rpc createKunde(CreateKundeRequest) returns (KundeResponse);
+    rpc deleteKunde(KundeByIdRequest) returns (KundeResponse);
+}
+
+
+message CreateKundeRequest {
+    string nachname = 1;
+    string email = 2;
+    int32 kategorie = 3;
+    bool has_newsletter = 4;
+    google.protobuf.Timestamp geburtsdatum = 5;
+    string homepage = 6;
+    GeschlechtType geschlecht = 7;
+    FamilienstandType familienstand = 8;
+    Adresse adresse = 9;
+    repeated Umsatz umsaetze = 10;
+    repeated InteresseType interessen = 11;
+}
+
+
+message KundeResponse {
+    string message = 1;
+}
