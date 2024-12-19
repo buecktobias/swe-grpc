@@ -61,3 +61,48 @@
 </build>
 
 ```
+
+Or if you use gradle, update `build.gradle.kts` as follows:
+
+```
+plugins {
+    id 'java'
+    id 'com.google.protobuf' version '0.9.4' // Protobuf plugin for Gradle
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // gRPC dependencies
+    implementation 'io.grpc:grpc-netty:1.56.0'
+    implementation 'io.grpc:grpc-protobuf:1.56.0'
+    implementation 'io.grpc:grpc-stub:1.56.0'
+
+    // Protocol Buffers runtime
+    implementation 'com.google.protobuf:protobuf-java:3.24.0'
+
+    // For testing (optional)
+    testImplementation 'junit:junit:4.13.2'
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.24.0"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.56.0"
+        }
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.plugins {
+                grpc {}
+            }
+        }
+    }
+}
+
+```
